@@ -22,8 +22,18 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm test --if-present
+      - name: Check if build script exists
+        run: |
+          if npm run | grep -q "build"; then
+            npm run build
+          else
+            echo "No build script found, skipping..."
+          fi
 
-      - name: Build project
-        run: npm run build --if-present
+      - name: Check if test script exists
+        run: |
+          if npm run | grep -q "test"; then
+            npm test
+          else
+            echo "No test script found, skipping..."
+          fi
